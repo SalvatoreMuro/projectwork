@@ -7,10 +7,11 @@ INSERT INTO userrole(username,role_code)VALUES ('lugraci','USER');
 
 INSERT INTO security(username,password)values('giacompa','giacompa');
 INSERT INTO security(username,password)values('lugraci','lugraci');
+INSERT INTO security(username,password)values('albertoc','albertoc');
 
 INSERT INTO userx(username, address, city, postcode, email, timebirth) VALUES ('giacompa','via tommaso marcellini 5','Palermo','90135','giancarlo.compagno@eng.it','1976-09-08');
 INSERT INTO userx(username, address, city, postcode, email, timebirth) VALUES ('lugraci' ,'via tommaso marcellini 5','Palermo','90135','luigi.graci@eng.it','1982-09-08');
-
+INSERT INTO userx(username, address, city, postcode, email, timebirth) VALUES ('albertoc','via tommaso marcellini 5','Palermo','90135','albycipo95@gmail.com','1995-06-26');
 INSERT INTO supplier(username,info)values('giacompa','Info fatturazione');
 
 INSERT INTO product(oid,description)VALUES (nextval('PRODUCT_ID_SEQ'), 'Product 1');
