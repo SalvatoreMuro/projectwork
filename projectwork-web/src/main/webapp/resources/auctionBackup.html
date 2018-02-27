@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+h1, h2, h3, div {
+	font-family: arial, sans-serif;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.message {
+    position: absolute;
+    z-index: 200;
+    border: 2px solid;
+    bottom: 0;
+    right: 0;
+}
+
+.error{
+	background-color: red;
+}
+
+.info{
+	background-color: green;
+}
+</style>
+</head>
+
+<script src="/projectwork-web/assets/angular/angular.min.js"></script>
+<script src="/projectwork-web/assets/angular/i18n/angular-locale_it-it.js"></script>
+<script src="/projectwork-web/assets/js/auction.js"></script>
+
+<body>
+
+<div ng-app="auctionAppp" ng-controller="auctionCtrl">
+
+	<h1>Aste S.p.A. - Piattaforma Aste Online</h1>
+	
+	<h2>Benvenuto {{userProfile.username + " (" + userProfile.email + ")"}}</h2>
+	
+	<h3>Aste attive</h3>
+
+	<table>
+	  <tr>
+	    <th>Titolo</th>
+	    <th>Descrizione</th>
+	    <th>Data Inizio</th>
+	    <th>Data Fine</th>
+	    <th>Azioni</th>
+	  </tr>	  
+	  
+	  <tr ng-repeat="auction in auctions">
+	    <td>{{auction.title}}</td>
+	    <td>{{auction.description}}</td>
+	    <td>{{auction.startAuction | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+	    <td>{{auction.endAuction | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+	    <td><button ng-click="loadAuction(auction.oid)">seleziona</button></td>
+	  </tr>
+	 
+	</table>
+	
+	<div ng-if="selectedAuction">
+	
+		<h3>Asta Selezionata: {{selectedAuction.oid}}</h3>		
+		
+		<table>
+		
+		 <tr>
+		    <th>Titolo</th>
+		    <td>{{selectedAuction.title}}</th>
+		  </tr>
+		  
+		  <tr>
+		    <th>Descrizione</th>
+		    <td>{{selectedAuction.description}}</th>
+		  </tr>
+		  
+		  <tr>
+		    <th>Attuale migliore offerta ({{selectedAuction.pricing}})</th>
+		    <td>{{selectedAuction.currentWinningPrice | currency}} ({{selectedAuction.lastBidDate | date:'dd/MM/yyyy HH:mm:ss'}})</td>
+		  </tr>
+		  
+		  <tr>
+		    <th>Fai un'offerta</th>
+		    <td>
+		    	<input type="text" name="bidPrice" 
+		    	placeholder="{{selectedAuction.currentWinningPrice}}"
+       			ng-model="bidPrice" currency-mask />
+		    	<button ng-click="addBid(bidPrice)">conferma</button>
+		    </td>
+		  </tr>
+		  
+		  <tr>
+		  	<th>Abbonamento a canali di notifica</th>
+		  	<td>
+		  		<div>
+		  			<span>notifiche push sul browser:</span>
+		  			<button ng-if="!websocketChannelActive" ng-click="registerChannel('WEBSOCKET')">registrati</button>
+		  			<button ng-if="websocketChannelActive" ng-click="deregisterChannel('WEBSOCKET')">annulla registrazione</button>
+		  		</div>
+		  		<div>
+		  			<span>notifiche via email: </span>
+		  			<button ng-if="!emailChannelActive" ng-click="registerChannel('EMAIL')">registrati</button>		  
+		  			<button ng-if="emailChannelActive" ng-click="deregisterChannel('EMAIL')">annulla registrazione</button>
+		  		</div>		  	
+		  	</td>
+		  </tr>
+		  
+		  <tr>
+		    <th>Data Inizio</th>
+		    <td>{{selectedAuction.startAuction | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+		  </tr>		  
+		  <tr>
+		    <th>Data Fine</th>
+		    <td>{{selectedAuction.endAuction | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+		  </tr>
+		  <tr>
+		    <th>Prodotto</th>
+		    <td>{{selectedAuction.product.description}}</td>
+		  </tr>
+		  <tr>
+		  	<th>Fornitore</th>
+		  	<td>{{selectedAuction.supplier.info}} - {{selectedAuction.supplier.email}} - ({{selectedAuction.supplier.address.postCode}}) {{selectedAuction.supplier.address.address}} {{selectedAuction.supplier.address.city}}</td>
+		  </tr>
+		  
+		  <tr ng-repeat="imageOid in selectedAuction.productImages">
+		  	<th>Immagine</th>
+		  	<td><img ng-src="/projectwork-web/rest/auction/getImage/{{selectedAuction.oid}}/{{imageOid}}" /></td>
+		  </tr>
+		   
+		</table>
+	
+	</div>
+	<div ng-style="message != null ? {'display':'show'} :{'display':'none'}" class="message {{classMessage}}">{{message}}</div>
+
+</div>
+
+
+
+
+</body>
+</html>

@@ -1,157 +1,86 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<style>
-
-h1, h2, h3, div {
-	font-family: arial, sans-serif;
-}
-
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-
-.message {
-    position: absolute;
-    z-index: 200;
-    border: 2px solid;
-    bottom: 0;
-    right: 0;
-}
-
-.error{
-	background-color: red;
-}
-
-.info{
-	background-color: green;
-}
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asta spa(3)</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Armata">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/css/Data-Table.css">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Map-Clean.css">
+    <link rel="stylesheet" href="assets/css/Navigation-e-commerce.css">
+    <link rel="stylesheet" href="assets/css/Pretty-Carousel-Fade--TouchSwipe.css">
+    <link rel="stylesheet" href="assets/css/Pretty-Product-List.css">
+    <link rel="stylesheet" href="assets/css/Pretty-Search-Form.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
-<script src="/projectwork-web/assets/angular/angular.min.js"></script>
-<script src="/projectwork-web/assets/angular/i18n/angular-locale_it-it.js"></script>
-<script src="/projectwork-web/assets/js/auction.js"></script>
-
 <body>
-
-<div ng-app="auctionAppp" ng-controller="auctionCtrl">
-
-	<h1>Aste S.p.A. - Piattaforma Aste Online</h1>
-	
-	<h2>Benvenuto {{userProfile.username + " (" + userProfile.email + ")"}}</h2>
-	
-	<h3>Aste attive</h3>
-
-	<table>
-	  <tr>
-	    <th>Titolo</th>
-	    <th>Descrizione</th>
-	    <th>Data Inizio</th>
-	    <th>Data Fine</th>
-	    <th>Azioni</th>
-	  </tr>	  
-	  
-	  <tr ng-repeat="auction in auctions">
-	    <td>{{auction.title}}</td>
-	    <td>{{auction.description}}</td>
-	    <td>{{auction.startAuction | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-	    <td>{{auction.endAuction | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-	    <td><button ng-click="loadAuction(auction.oid)">seleziona</button></td>
-	  </tr>
-	 
-	</table>
-	
-	<div ng-if="selectedAuction">
-	
-		<h3>Asta Selezionata: {{selectedAuction.oid}}</h3>		
-		
-		<table>
-		
-		 <tr>
-		    <th>Titolo</th>
-		    <td>{{selectedAuction.title}}</th>
-		  </tr>
-		  
-		  <tr>
-		    <th>Descrizione</th>
-		    <td>{{selectedAuction.description}}</th>
-		  </tr>
-		  
-		  <tr>
-		    <th>Attuale migliore offerta ({{selectedAuction.pricing}})</th>
-		    <td>{{selectedAuction.currentWinningPrice | currency}} ({{selectedAuction.lastBidDate | date:'dd/MM/yyyy HH:mm:ss'}})</td>
-		  </tr>
-		  
-		  <tr>
-		    <th>Fai un'offerta</th>
-		    <td>
-		    	<input type="text" name="bidPrice" 
-		    	placeholder="{{selectedAuction.currentWinningPrice}}"
-       			ng-model="bidPrice" currency-mask />
-		    	<button ng-click="addBid(bidPrice)">conferma</button>
-		    </td>
-		  </tr>
-		  
-		  <tr>
-		  	<th>Abbonamento a canali di notifica</th>
-		  	<td>
-		  		<div>
-		  			<span>notifiche push sul browser:</span>
-		  			<button ng-if="!websocketChannelActive" ng-click="registerChannel('WEBSOCKET')">registrati</button>
-		  			<button ng-if="websocketChannelActive" ng-click="deregisterChannel('WEBSOCKET')">annulla registrazione</button>
-		  		</div>
-		  		<div>
-		  			<span>notifiche via email: </span>
-		  			<button ng-if="!emailChannelActive" ng-click="registerChannel('EMAIL')">registrati</button>		  
-		  			<button ng-if="emailChannelActive" ng-click="deregisterChannel('EMAIL')">annulla registrazione</button>
-		  		</div>		  	
-		  	</td>
-		  </tr>
-		  
-		  <tr>
-		    <th>Data Inizio</th>
-		    <td>{{selectedAuction.startAuction | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-		  </tr>		  
-		  <tr>
-		    <th>Data Fine</th>
-		    <td>{{selectedAuction.endAuction | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-		  </tr>
-		  <tr>
-		    <th>Prodotto</th>
-		    <td>{{selectedAuction.product.description}}</td>
-		  </tr>
-		  <tr>
-		  	<th>Fornitore</th>
-		  	<td>{{selectedAuction.supplier.info}} - {{selectedAuction.supplier.email}} - ({{selectedAuction.supplier.address.postCode}}) {{selectedAuction.supplier.address.address}} {{selectedAuction.supplier.address.city}}</td>
-		  </tr>
-		  
-		  <tr ng-repeat="imageOid in selectedAuction.productImages">
-		  	<th>Immagine</th>
-		  	<td><img ng-src="/projectwork-web/rest/auction/getImage/{{selectedAuction.oid}}/{{imageOid}}" /></td>
-		  </tr>
-		   
-		</table>
-	
-	</div>
-	<div ng-style="message != null ? {'display':'show'} :{'display':'none'}" class="message {{classMessage}}">{{message}}</div>
-
-</div>
-
-
-
-
+    <div ng-app="auctionAppp" ng-controller="auctionCtrl">
+        <nav class="navbar navbar-default" style="background-position:top;background-image:url(&quot;assets/img/barr.png&quot;);background-repeat:repeat;">
+            <div class="container">
+                <div class="navbar-header"><a class="navbar-brand" href="Auction.html" style="color:rgb(255,255,255);"><strong>Aste S.p.A.</strong></a><button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
+                <div
+                    class="collapse navbar-collapse" id="navcol-1">
+                    <form class="navbar-form navbar-left">
+                        <div class="input-group"><span id="basic-addon1" class="input-group-addon" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;"><i class="glyphicon glyphicon-search" style="background-image:url(&quot;none&quot;);color:#2d3e51;"></i></span>
+                            <input
+                                class="form-control" type="text" name="Cerca" placeholder="Search" aria-describedby="basic-addon1"></div>
+                    </form>
+                    <p class="navbar-text" style="color:rgb(255,255,255);font-size:18px;"><strong>{{userProfile.username + " (" + userProfile.email + ")"}}</strong></p><button class="btn btn-default navbar-btn navbar-right" type="submit" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;color:#2d3e51;border-radius:10px;width:97px;font-size:16px;"><strong>Logout</strong></button></div>
+    </div>
+    </nav>
+    </div>
+    <div class="row product-list" ng-repeat="auction in auctions" >
+        <div class="col-md-4 col-sm-6 product-item" style="width:100%;">
+            <div class="product-container">
+                <div class="row">
+                    <div class="col-md-12" style="width:20%;height:100%;"><a href="#" class="product-image"><img src="assets/img/iphone6.jpg"></a></div>
+                    <div class="col-xs-8" style="width:80%;">
+                        <h2><a href="#">{{auction.title}}</a></h2>
+                    </div>
+                    <div class="col-xs-12" style="width:80%;height:100%;">
+                        <p class="product-description" style="width:100%;height:100%;"><span style="font-size:20px;"><strong>{{auction.product.description}}</strong></span><span>{{auction.description}}</span></p>
+                        <div
+                            class="row">
+                            <div class="col-xs-6" style="height:100%;width:50%;">
+                                <p style="width:100%;height:100%;"><br><span style="font-size:20px;color:rgb(0,0,0);"><strong>Data inizio asta:&nbsp;</strong></span><span style="font-size:20px;">{{auction.startAuction | date:'dd/MM/yyyy HH:mm:ss'}}</span></p>
+                            </div>
+                            <div class="col-xs-6" style="height:100%;width:50%;">
+                                <p style="width:100%;height:100%;"><br><span style="font-size:20px;color:rgb(0,0,0);"><strong>Data fine asta:&nbsp;</strong></span><span style="font-size:20px;">{{auction.endAuction | date:'dd/MM/yyyy HH:mm:ss'}}</span></p>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6" style="height:100%;width:50%;"><button class="btn btn-default" type="button" style="height:100%;">Seleziona</button></div>
+                        <div class="col-xs-6" style="height:100%;width:50%;">
+                            <p style="width:100%;height:100%;"><span style="width:50%;font-size:20px;"><strong>Migliore offerta:&nbsp;</strong></span><span style="width:50%;font-size:20px;">599 €</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="/projectwork-web/assets/angular/angular.min.js"></script>
+	<script src="/projectwork-web/assets/angular/i18n/angular-locale_it-it.js"></script>
+	<script src="/projectwork-web/assets/js/auction.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+    <script src="assets/js/Pretty-Carousel-Fade--TouchSwipe.js"></script>
+    <script src="assets/js/Animated-Pretty-Product-List.js"></script>
+    <script src="assets/js/Dynamic-Table.js"></script>
+    <script src="assets/js/SBWP-Search-Bar-With-Parameters.js"></script>
 </body>
+
 </html>
