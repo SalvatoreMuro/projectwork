@@ -1,11 +1,67 @@
-var app = angular.module('auctionAppp', []);
+var app = angular.module('auctionAppp', ['ngRoute']);
 
-
-app.controller('auctionCtrl', function($rootScope,$scope, $http, $interval,$timeout) {
+app.controller("auctionListController",function($rootScope,$scope, $routeParams, $location, $http, $interval,$timeout) {
+	$scope.searchText = $routeParams.searchText;
+	$scope.loadAuctions = function(){
+		var response = $http.get('/projectwork-web/rest/auction/list');
+		
+		response.success(function(data, status, headers, config) {
+			$scope.auctions = data;
+			$scope.auctions.forEach(function(element){
+				var response = $http.get('/projectwork-web/rest/auction/get/' + element.oid);
+				
+				response.success(function(data, status, headers, config) {
+					if(data && data.productImages){
+						element.imageOid = data.productImages[0]						
+					}
+				});
+			});
+			
+		});
+		
+	};
 	
+	$scope.goToDetail = function(oid){
+		$location.path("/productPage/"+oid)
+	}
+	
+	
+	$scope.loadAuctions();
+});
+
+app.controller("productPageController",function($rootScope,$scope,$routeParams, $http, $interval,$timeout) {
+	$scope.loadAuctions = function(){
+		var response = $http.get('/projectwork-web/rest/auction/list');
+		
+		response.success(function(data, status, headers, config) {
+			$scope.auction = undefined;
+			data.forEach(function(element){
+				if(element.oid == $routeParams.oid){
+					$scope.auction = element;
+					var response = $http.get('/projectwork-web/rest/auction/get/' + element.oid);
+					
+					response.success(function(data, status, headers, config) {
+							element.images = data.productImages;
+					});					
+				}
+			});
+			
+		});
+		
+	};
+	
+	$scope.loadAuctions();
+	
+});
+
+app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $interval,$timeout) {
+	
+	$scope.search = function(){
+			$location.path("/").search({searchText:$scope.searchBox});
+	}
 	
 	$scope.loadUserProfile = function(){
-		var response = $http.get('../rest/user/get');
+		var response = $http.get('/projectwork-web/rest/user/get');
 		
 		response.success(function(data, status, headers, config) {
 			 $scope.userProfile = data;
@@ -13,26 +69,35 @@ app.controller('auctionCtrl', function($rootScope,$scope, $http, $interval,$time
 		
 	};
 	
-	$scope.loadAuctions = function(){
-		var response = $http.get('../rest/auction/list');
-		
-		response.success(function(data, status, headers, config) {
-			$scope.auctions = data;
-			
-		});
-		
-	};
+//	$scope.loadAuctions = function(){
+//		var response = $http.get('/projectwork-web/rest/auction/list');
+//		
+//		response.success(function(data, status, headers, config) {
+//			$scope.auctions = data;
+//			$scope.auctions.forEach(function(element){
+//				var response = $http.get('/projectwork-web/rest/auction/get/' + element.oid);
+//				
+//				response.success(function(data, status, headers, config) {
+//					if(data && data.productImages){
+//						element.imageOid = data.productImages[0]						
+//					}
+//				});
+//			});
+//			
+//		});
+//		
+//	};
 	
 	$scope.loadAuction = function(oid){
 		console.log('carico '+oid);
-		var response = $http.get('../rest/auction/get/' + oid);
+		var response = $http.get('/projectwork-web/rest/auction/get/' + oid);
 		
 		response.success(function(data, status, headers, config) {
 			console.log('carico su id'+oid,data);
 			$scope.selectedAuction = data;
 		});
 		
-		var response2 = $http.get('../rest/auction/activeChannels/' + oid);
+		var response2 = $http.get('/projectwork-web/rest/auction/activeChannels/' + oid);
 		response2.success(function(data, status, headers, config) {
 			
 			var websocketChannelActive = false;
@@ -57,7 +122,7 @@ app.controller('auctionCtrl', function($rootScope,$scope, $http, $interval,$time
 		var parameter = JSON.stringify({auctionOid:$scope.selectedAuction.oid, 
 		auctionVersion:$scope.selectedAuction.version, price:bidPrice});
 		
-		var response = $http.post('../rest/auction/addBid/',parameter);
+		var response = $http.post('/projectwork-web/rest/auction/addBid/',parameter);
 		
 		response.success(function(data, status, headers, config) {
 			$scope.displayMessage("offerta inserita correttamente");
@@ -75,7 +140,7 @@ app.controller('auctionCtrl', function($rootScope,$scope, $http, $interval,$time
 		
 		var parameter = JSON.stringify({auctionOid:$scope.selectedAuction.oid, type:channelType});
 		
-		var response = $http.post('../rest/auction/registerChannel/',parameter);
+		var response = $http.post('/projectwork-web/rest/auction/registerChannel/',parameter);
 		
 		response.success(function(data, status, headers, config) {
 			$scope.loadAuction($scope.selectedAuction.oid);
@@ -88,7 +153,7 @@ app.controller('auctionCtrl', function($rootScope,$scope, $http, $interval,$time
 		
 		var parameter = JSON.stringify({auctionOid:$scope.selectedAuction.oid, type:channelType});
 		
-		var response = $http.post('../rest/auction/deregisterChannel/',parameter);
+		var response = $http.post('/projectwork-web/rest/auction/deregisterChannel/',parameter);
 		
 		response.success(function(data, status, headers, config) {
 			$scope.loadAuction($scope.selectedAuction.oid);
@@ -148,7 +213,7 @@ app.controller('auctionCtrl', function($rootScope,$scope, $http, $interval,$time
 	}
 	
 	$scope.loadUserProfile();	
-	$scope.loadAuctions();	
+//	$scope.loadAuctions();	
 	$scope.connectWS();
 	//refresh data every 5 seconds
 	//$interval( function(){ $scope.loadUserProfile(); $scope.loadAuctions(); $scope.loadAuctions(selectedAuction.oid);}, 5000);

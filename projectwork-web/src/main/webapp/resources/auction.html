@@ -5,50 +5,56 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aste spa</title>
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/fonts/ionicons.min.css">
-    <link rel="stylesheet" href="../assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/fonts/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Armata">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-    <link rel="stylesheet" href="../assets/css/Data-Table.css">
-    <link rel="stylesheet" href="../assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/css/Data-Table.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/css/Footer-Dark.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/Login-Form-Clean.css">
-    <link rel="stylesheet" href="../assets/css/Map-Clean.css">
-    <link rel="stylesheet" href="../assets/css/Navigation-e-commerce.css">
-    <link rel="stylesheet" href="../assets/css/Pretty-Carousel-Fade--TouchSwipe.css">
-    <link rel="stylesheet" href="../assets/css/Pretty-Product-List.css">
-    <link rel="stylesheet" href="../assets/css/Pretty-Search-Form.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/css/Map-Clean.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/css/Navigation-e-commerce.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/css/Pretty-Carousel-Fade--TouchSwipe.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/css/Pretty-Product-List.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/css/Pretty-Search-Form.css">
+    <link rel="stylesheet" href="/projectwork-web/assets/css/styles.css">
 </head>
 
 <script src="/projectwork-web/assets/angular/angular.min.js"></script>
+<script src="/projectwork-web/assets/angular/angular-route.min.js"></script>
 <script src="/projectwork-web/assets/angular/i18n/angular-locale_it-it.js"></script>
 <script src="/projectwork-web/assets/js/auction.js"></script>
+<script src="/projectwork-web/assets/js/routing.js"></script>
 
-<body>
-    <div ng-app="auctionAppp" ng-controller="auctionCtrl">
-        <nav class="navbar navbar-default" style="background-position:top;background-image:url(&quot;../assets/img/barr.png&quot;);background-repeat:repeat;">
+<body ng-app="auctionAppp" ng-controller="auctionCtrl">
+    <div>
+        <nav class="navbar navbar-default" style="background-position:top;background-image:url(&quot;/projectwork-web/assets/img/barr.png&quot;);background-repeat:repeat;">
             <div class="container">
                 <div class="navbar-header"><a class="navbar-brand" href="auction.html" style="color:rgb(255,255,255);"><strong>Aste S.p.A.</strong></a><button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                 <div
                     class="collapse navbar-collapse" id="navcol-1">
                     <form class="navbar-form navbar-left">
-                        <div class="input-group"><span id="basic-addon1" class="input-group-addon" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;"><i class="glyphicon glyphicon-search" style="background-image:url(&quot;none&quot;);color:#2d3e51;"></i></span>
-                            <input
+                        <div class="input-group"><span ng-click="search()" id="basic-addon1" class="input-group-addon" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;"><i class="glyphicon glyphicon-search" style="background-image:url(&quot;none&quot;);color:#2d3e51;"></i></span>
+                            <input ng-model="searchBox"
                                 class="form-control" type="text" name="Cerca" placeholder="Search" aria-describedby="basic-addon1"></div>
                     </form>
                     <p class="navbar-text" style="color:rgb(255,255,255);font-size:18px;"><strong>{{userProfile.username}}</strong></p><button class="btn btn-default navbar-btn navbar-right" type="submit" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;color:#2d3e51;border-radius:10px;width:97px;font-size:16px;"><strong>Logout</strong></button></div>
     </div>
     </nav>
     </div>
-    <div class="row product-list">
+    <any ng-view></any>
+    <!-- <div class="row product-list">
         <div class="col-md-4 col-sm-6 product-item" style="width:100%;">
             <div class="product-container">
-                <div class="row">
-                    <div class="col-md-12" style="width:20%;height:100%;"><a href="#" class="product-image"><img src="../assets/img/iphone6.jpg"></a></div>
+                <div class="row" ng-repeat="auction in auctions">
+                    <div class="col-md-12" style="width:20%;height:100%;"><a href="#" class="product-image">
+                   
+                    <img ng-if="!auction.imageOid" src="/projectwork-web/assets/img/loading.gif" />
+                    <img ng-if="auction.imageOid" ng-src="/projectwork-web/rest/auction/getImage/{{auction.oid}}/{{auction.imageOid}}" /></a></div>
                     <div class="col-xs-8" style="width:80%;">
                         <h2><a href="#">{{auction.title}}</a></h2>
                     </div>
@@ -73,7 +79,7 @@
             </div>
         </div>
     </div>
-    </div>
+    </div> -->
     <div class="footer-dark" style="background-color:rgb(45,62,81);">
         <footer>
             <div class="container">
@@ -96,14 +102,14 @@
             </div>
         </footer>
     </div>
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/projectwork-web/assets/js/jquery.min.js"></script>
+    <script src="/projectwork-web/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
-    <script src="../assets/js/Pretty-Carousel-Fade--TouchSwipe.js"></script>
-    <script src="../assets/js/Animated-Pretty-Product-List.js"></script>
-    <script src="../assets/js/Dynamic-Table.js"></script>
-    <script src="../assets/js/SBWP-Search-Bar-With-Parameters.js"></script>
+    <script src="/projectwork-web/assets/js/Pretty-Carousel-Fade--TouchSwipe.js"></script>
+    <script src="/projectwork-web/assets/js/Animated-Pretty-Product-List.js"></script>
+    <script src="/projectwork-web/assets/js/Dynamic-Table.js"></script>
+    <script src="/projectwork-web/assets/js/SBWP-Search-Bar-With-Parameters.js"></script>
 </body>
 
 </html>

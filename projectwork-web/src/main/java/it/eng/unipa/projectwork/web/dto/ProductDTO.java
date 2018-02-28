@@ -1,5 +1,10 @@
 package it.eng.unipa.projectwork.web.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import it.eng.unipa.projectwork.model.Image;
+
 public class ProductDTO {
 
 	private Long oid;
