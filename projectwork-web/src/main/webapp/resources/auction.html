@@ -50,17 +50,17 @@
                 <div class="row">
                     <div class="col-md-12" style="width:20%;height:100%;"><a href="#" class="product-image"><img src="../assets/img/iphone6.jpg"></a></div>
                     <div class="col-xs-8" style="width:80%;">
-                        <h2><a href="#">iPhone 6s</a></h2>
+                        <h2><a href="#">{{auction.title}}</a></h2>
                     </div>
                     <div class="col-xs-12" style="width:80%;height:100%;">
-                        <p class="product-description" style="width:100%;height:100%;"><span style="font-size:20px;"><strong>iPhone 6s 32 GB Nero</strong></span><span><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna.&nbsp;<br><br></span></p>
+                        <p class="product-description" style="width:100%;height:100%;"><span><br>{{auction.description}}<br><br></span></p>
                         <div
                             class="row">
                             <div class="col-xs-6" style="height:100%;width:50%;">
-                                <p style="width:100%;height:100%;"><br><span style="font-size:20px;color:rgb(0,0,0);"><strong>Data inizio asta:&nbsp;</strong></span><span style="font-size:20px;">Text</span></p>
+                                <p style="width:100%;height:100%;"><br><span style="font-size:20px;color:rgb(0,0,0);"><strong>Data inizio asta:&nbsp;</strong></span><span style="font-size:20px;">{{auction.startAuction | date:'dd/MM/yyyy HH:mm:ss'}}</span></p>
                             </div>
                             <div class="col-xs-6" style="height:100%;width:50%;">
-                                <p style="width:100%;height:100%;"><br><span style="font-size:20px;color:rgb(0,0,0);"><strong>Data fine asta:&nbsp;</strong></span><span style="font-size:20px;">Text</span></p>
+                                <p style="width:100%;height:100%;"><br><span style="font-size:20px;color:rgb(0,0,0);"><strong>Data fine asta:&nbsp;</strong></span><span style="font-size:20px;">{{auction.endAuction | date:'dd/MM/yyyy HH:mm:ss'}}</span></p>
                             </div>
                     </div>
                     <div class="row">
