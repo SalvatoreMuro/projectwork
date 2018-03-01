@@ -77,9 +77,41 @@ app.controller("productPageController",function($rootScope,$scope,$routeParams, 
 		},2000);
 	}
 	
+	$scope.clearMessage = function(){
+		$scope.message = null;
+		$scope.classMessage = null;
+	}
+	
+	$scope.goToInfo = function(oid){
+		$location.path("/productPage/"+oid)
+	}
+	
+	$scope.carouselNext = function(){
+		$scope.carousel.next
+	}
+	
 	$scope.loadAuctions();
 	
 });
+
+app.controller("infoSupplierController",function($rootScope,$scope,$routeParams, $http, $interval,$timeout) {
+	$scope.loadSupplier = function(){
+		var response = $http.get('/projectwork-web/rest/supplier/list');
+		
+		response.success(function(data, status, headers, config) {
+			$scope.supplier = undefined;
+			data.forEach(function(element){
+				if(element.oid == $routeParams.oid){
+					$scope.supplier = element;						
+				}
+			});
+			
+		});
+		
+	};
+	
+	$scope.loadSupplier();
+});	
 
 app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $interval,$timeout) {
 	

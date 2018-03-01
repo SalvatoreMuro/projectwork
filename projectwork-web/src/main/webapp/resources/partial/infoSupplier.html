@@ -1,0 +1,74 @@
+<div class="container">
+        <form action="javascript:void();" method="get" id="contactForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="successfail"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" id="message">
+                    <fieldset>
+                        <legend><i class="fa fa-info"></i>&nbsp;Info</legend>
+                    </fieldset>
+                    <div class="form-group has-feedback" style="width:100%;"><label class="control-label" for="from_name" style="width:100%;">Username:</label>
+                        <p style="height:34px;margin:0px;padding:6px 42.5px 6px;border:1px solid #ccc;border-radius:4px;width:100%;">{{supplier.username}}</p>
+                    </div>
+                    <div class="form-group has-feedback" style="width:100%;"><label class="control-label" for="from_email" style="width:100%;">Email:</label>
+                        <p style="height:34px;margin:0px;padding:6px 42.5px 6px;border:1px solid #ccc;border-radius:4px;width:100%;">{{supplier.email}}</p>
+                    </div>
+                    <div class="form-group has-feedback" style="width:100%;"><label class="control-label" for="from_phone" style="width:100%;">Data di nascita:</label>
+                        <p style="height:34px;margin:0px;padding:6px 42.5px 6px;border:1px solid #ccc;border-radius:4px;width:100%;">{{supplier.timeBirth | date:'dd/MM/yyyy'}}</p>
+                    </div>
+                    <div class="form-group"><label class="control-label" for="comments">Info:</label>
+                        <p style="height:114px;margin:0px;padding:6px 42.5px 6px;border:1px solid #ccc;border-radius:4px;">{{supplier.info}}</p>
+                    </div>
+                    <hr class="visible-xs-block visible-sm-block">
+                </div>
+                <div class="col-md-6">
+                    <fieldset>
+                        <legend style="width:100%;"> <i class="glyphicon glyphicon-map-marker"></i> Trovaci</legend><iframe allowfullscreen="" frameborder="0" width="100%" height="100%" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBbz_eicoXZj2IJ9_73Moe0qkTQvvJcP9I&amp;q=Paris%2C+Italia&amp;zoom=11"></iframe></fieldset>
+                    <div
+                        class="row">
+                        <div class="col-md-12" style="width:100%;">
+                            <div class="static-map"><a href="https://www.google.com/maps/place/2+15th+St+NW+Washington+DC+20024" target="_blank"></a></div>
+                        </div>
+                        <div class="col-sm-6" style="width:100%;">
+                            <fieldset>
+                                <legend><i class="fa fa-location-arrow"></i>&nbsp;I nostri indirizzi</legend>
+                            </fieldset>
+                            <div class="row" style="width:100%;">
+                                <div class="col-md-12">
+                                    <div style="width:50%;">
+                                        <div class="col-md-12" style="width:100%;padding:0px;">
+                                            <p style="width:70%;">Città:</p>
+                                            <div></div>
+                                        </div>
+                                    </div>
+                                    <p style="width:100%;">{{selectedAuction.supplier.address.city}}</p>
+                                </div>
+                                <div class="col-md-12">
+                                    <div style="width:50%;">
+                                        <div class="col-md-12" style="width:100%;padding:0px;">
+                                            <p style="width:70%;">Indirizzo:</p>
+                                            <div></div>
+                                        </div>
+                                    </div>
+                                    <p style="width:100%;">{{selectedAuction.supplier.address.address}}</p>
+                                </div>
+                                <div class="col-md-12">
+                                    <div style="width:50%;">
+                                        <div class="col-md-12" style="width:100%;padding:0px;">
+                                            <p style="width:70%;">Codice postale:</p>
+                                            <div></div>
+                                        </div>
+                                    </div>
+                                    <p style="width:100%;">{{selectedAuction.supplier.address.postCode}}</p>
+                                </div>
+                            </div>
+                            <div></div>
+                        </div>
+                </div>
+            </div>
+    </div>
+    </form>
+    </div>
