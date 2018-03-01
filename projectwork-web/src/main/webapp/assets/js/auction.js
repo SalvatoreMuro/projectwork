@@ -25,6 +25,26 @@ app.controller("auctionListController",function($rootScope,$scope, $routeParams,
 		$location.path("/productPage/"+oid)
 	}
 	
+	$scope.displayMessage = function(msg,mtype){
+		$.notify({
+			icon: '/projectwork-web/assets/img/' + mtype + '.png',
+			message: msg
+		},{
+			element: 'body',
+			type: mtype,
+			allow_dismiss: false,
+			placement: {
+				from: "bottom",
+				align: "right"
+			},
+			delay: 3000,
+			newest_on_top: false,
+			animate: {
+				enter: 'animated fadeInRight',
+				exit: 'animated fadeOutRight'
+			}
+		});
+	}
 	
 	$scope.loadAuctions();
 });
@@ -93,7 +113,7 @@ $scope.registerChannel = function(channelType){
 		
 		response.success(function(data, status, headers, config) {
 			$scope.loadAuction($scope.auction.oid);
-			$scope.displayMessage('Deregistrazione al canale ok');
+			$scope.displayMessage('Deregistrazione al canale ok', 'success');
 		});
 		
 	} 
@@ -163,6 +183,28 @@ app.controller("infoSupplierController",function($rootScope,$scope,$routeParams,
 		});
 		
 	};
+	
+	$scope.displayMessage = function(msg,mtype){
+		$.notify({
+			icon: '/projectwork-web/assets/img/' + mtype + '.png',
+			message: msg
+		},{
+			element: 'body',
+			type: mtype,
+			allow_dismiss: false,
+			placement: {
+				from: "bottom",
+				align: "right"
+			},
+			delay: 3000,
+			newest_on_top: false,
+			animate: {
+				enter: 'animated fadeInRight',
+				exit: 'animated fadeOutRight'
+			}
+		});
+	}
+	
 	$scope.loadAuctions();
 });	
 
@@ -282,7 +324,7 @@ app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $inte
         $scope.websocket = new WebSocket(wsURI);
 
         $scope.websocket.onopen = function() {
-        //	$scope.displayMessage('Connection is now open');
+        	$scope.displayMessage('Connection is now open','success');
         };
         $scope.websocket.onmessage = function(event) {
             // log the event     
@@ -296,10 +338,10 @@ app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $inte
         };
         $scope.websocket.onerror = function(event) {
             // log the event
-            $scope.displayMessage('Error! ' + event.data, 'error','error');
+            $scope.displayMessage('Error! ' + event.data,'danger');
         };
         $scope.websocket.onclose = function() {
-        	$scope.displayMessage('The connection was closed','error');
+        	$scope.displayMessage('The connection was closed','danger');
         };
     }
 	
@@ -333,7 +375,10 @@ app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $inte
 			element: 'body',
 			type: mtype,
 			allow_dismiss: false,
-			placement_from: 'bottom',
+			placement: {
+				from: "bottom",
+				align: "right"
+			},
 			delay: 3000,
 			newest_on_top: false,
 			animate: {

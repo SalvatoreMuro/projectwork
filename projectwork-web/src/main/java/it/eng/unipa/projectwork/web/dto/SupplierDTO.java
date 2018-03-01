@@ -1,5 +1,7 @@
 package it.eng.unipa.projectwork.web.dto;
 
+import java.util.Date;
+
 public class SupplierDTO {
 
 	public String getUsername() {
@@ -26,8 +28,6 @@ public class SupplierDTO {
 	public void setAddress(AddressDTO address) {
 		this.address = address;
 	}
-	
-
 	
 	private String username;
 	private String email;
