@@ -42,6 +42,9 @@ app.controller("productPageController",function($rootScope,$scope,$routeParams, 
 					
 					response.success(function(data, status, headers, config) {
 							element.images = data.productImages;
+							setTimeout(function(){
+								$("#carousel1").carousel()
+							},100);
 					});					
 				}
 			});
@@ -58,12 +61,12 @@ app.controller("productPageController",function($rootScope,$scope,$routeParams, 
 		var response = $http.post('/projectwork-web/rest/auction/addBid/',parameter);
 		
 		response.success(function(data, status, headers, config) {
-			$scope.displayMessage("offerta inserita correttamente");
+			$scope.displayMessage("offerta inserita correttamente",'success');
 			$scope.auction =  data;
 		});
 		
 		 response.error(function(data, status, headers, config) {
-	            $scope.displayMessage("Non e' stato possibile inserire l'offerta: " + data.messages,'error');
+	            $scope.displayMessage("Non e' stato possibile inserire l'offerta: " + data.messages,'danger');
 	        });
 		
 		
@@ -77,7 +80,7 @@ $scope.registerChannel = function(channelType){
 		
 		response.success(function(data, status, headers, config) {
 			$scope.loadAuction($scope.auction.oid);
-			$scope.displayMessage('Registrazione al canale ok');
+			$scope.displayMessage('Registrazione al canale ok','success');
 		});
 		
 	} 
@@ -95,12 +98,33 @@ $scope.registerChannel = function(channelType){
 		
 	} 
 	
-	$scope.displayMessage = function(msg,type){
-		$scope.classMessage = type==null?'info':type;
-		$scope.message = msg;
-		$timeout(function(){
-			$scope.clearMessage();
-		},2000);
+//	$scope.displayMessage = function(msg,type){
+//		$scope.classMessage = type==null?'info':type;
+//		$scope.message = msg;
+//		$timeout(function(){
+//			$scope.clearMessage();
+//		},2000);
+//	}
+	
+	$scope.displayMessage = function(msg,mtype){
+		$.notify({
+			icon: '/projectwork-web/assets/img/' + mtype + '.png',
+			message: msg
+		},{
+			element: 'body',
+			type: mtype,
+			allow_dismiss: false,
+			placement: {
+				from: "bottom",
+				align: "right"
+			},
+			delay: 3000,
+			newest_on_top: false,
+			animate: {
+				enter: 'animated fadeInRight',
+				exit: 'animated fadeOutRight'
+			}
+		});
 	}
 	
 	$scope.clearMessage = function(){
@@ -108,12 +132,12 @@ $scope.registerChannel = function(channelType){
 		$scope.classMessage = null;
 	}
 	
-	$scope.goToInfo = function(oid){
-		$location.path("/productPage/"+oid)
+	$scope.goToInfo = function(username){
+		$location.path("/supplierPage/"+username)
 	}
 	
-	$scope.carouselNext = function(){
-		$scope.carousel.next
+	$scope.carousel = function(verso){
+		$("#carousel1").carousel(verso);
 	}
 	
 	$scope.loadAuctions();
@@ -121,22 +145,25 @@ $scope.registerChannel = function(channelType){
 });
 
 app.controller("infoSupplierController",function($rootScope,$scope,$routeParams, $http, $interval,$timeout) {
-	$scope.loadSupplier = function(){
-		var response = $http.get('/projectwork-web/rest/supplier/list');
+	
+	
+	$scope.loadAuctions = function(){
+		var response = $http.get('/projectwork-web/rest/auction/list');
 		
 		response.success(function(data, status, headers, config) {
-			$scope.supplier = undefined;
+			$scope.auction = undefined;
 			data.forEach(function(element){
-				if(element.oid == $routeParams.oid){
-					$scope.supplier = element;						
+				if(element.supplier.username == $routeParams.username){
+					$scope.supplier = element.supplier;
+					$scope.addressForMaps = element.supplier.address.address.replace(new RegExp(' ','g'),'+')+','+element.supplier.address.city+'IT';
+					$('#maps').html('<iframe allowfullscreen="" frameborder="0" width="100%" height="100%" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBbz_eicoXZj2IJ9_73Moe0qkTQvvJcP9I&q='+$scope.addressForMaps+'&zoom=11"></iframe>')
 				}
 			});
 			
 		});
 		
 	};
-	
-	$scope.loadSupplier();
+	$scope.loadAuctions();
 });	
 
 app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $interval,$timeout) {
@@ -210,12 +237,12 @@ app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $inte
 		var response = $http.post('/projectwork-web/rest/auction/addBid/',parameter);
 		
 		response.success(function(data, status, headers, config) {
-			$scope.displayMessage("offerta inserita correttamente");
+			$scope.displayMessage("offerta inserita correttamente", 'success');
 			$scope.selectedAuction =  data;
 		});
 		
 		 response.error(function(data, status, headers, config) {
-	            $scope.displayMessage("Non e' stato possibile inserire l'offerta: " + data.messages,'error');
+	            $scope.displayMessage("Non e' stato possibile inserire l'offerta: " + data.messages,'danger');
 	        });
 		
 		
@@ -255,7 +282,7 @@ app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $inte
         $scope.websocket = new WebSocket(wsURI);
 
         $scope.websocket.onopen = function() {
-        	$scope.displayMessage('Connection is now open');
+        //	$scope.displayMessage('Connection is now open');
         };
         $scope.websocket.onmessage = function(event) {
             // log the event     
@@ -264,7 +291,7 @@ app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $inte
             if($scope.selectedAuction.oid==data.auctionOid){
             	$scope.loadAuction(data.auctionOid);
             }
-            $scope.displayMessage('New bid '+data.pricing+' for auction '+data.auctionOid);
+            $scope.displayMessage('New bid '+data.pricing+' for auction '+data.auctionOid, 'success');
             
         };
         $scope.websocket.onerror = function(event) {
@@ -299,7 +326,7 @@ app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $inte
 */
 // Cristian	
 	$scope.displayMessage = function(msg,mtype){
-		$scope.notify({
+		$.notify({
 			icon: '/projectwork-web/assets/img/' + mtype + '.png',
 			message: msg
 		},{

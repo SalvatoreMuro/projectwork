@@ -26,6 +26,9 @@ public class SupplierDTO {
 	public void setAddress(AddressDTO address) {
 		this.address = address;
 	}
+	
+
+	
 	private String username;
 	private String email;
 	private String info;

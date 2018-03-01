@@ -8,8 +8,8 @@ app.config(function($routeProvider){
 		controller:"productPageController"
 	});
 	
-	$routeProvider.when("/supplierPage/:oid",{
-		templateUrl:"/projectwork-web/resources/partial/infoSuplpier.html",
+	$routeProvider.when("/supplierPage/:username",{
+		templateUrl:"/projectwork-web/resources/partial/infoSupplier.html",
 		controller:"infoSupplierController"
 	});
 	
