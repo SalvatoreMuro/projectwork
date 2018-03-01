@@ -283,18 +283,37 @@ app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $inte
             $scope.websocket = null;
         }
 	}
-	
+/*	
 	$scope.displayMessage = function(msg,type){
 		$scope.classMessage = type==null?'info':type;
 		$scope.message = msg;
 		$timeout(function(){
 			$scope.clearMessage();
 		},2000);
-	}
+	}	
 	
 	$scope.clearMessage = function(){
 		$scope.message = null;
 		$scope.classMessage = null;
+	}
+*/
+// Cristian	
+	$scope.displayMessage = function(msg,mtype){
+		$scope.notify({
+			icon: '/projectwork-web/assets/img/' + mtype + '.png',
+			message: msg
+		},{
+			element: 'body',
+			type: mtype,
+			allow_dismiss: false,
+			placement_from: 'bottom',
+			delay: 3000,
+			newest_on_top: false,
+			animate: {
+				enter: 'animated fadeInRight',
+				exit: 'animated fadeOutRight'
+			}
+		});
 	}
 	
 	$scope.loadUserProfile();	
