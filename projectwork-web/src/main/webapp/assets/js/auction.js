@@ -1,5 +1,5 @@
 var app = angular.module('auctionAppp', ['ngRoute']);
-/*
+
 app.controller("auctionListController",function($rootScope,$scope, $routeParams, $location, $http, $interval,$timeout) {
 	$scope.searchText = $routeParams.searchText;
 	$scope.loadAuctions = function(){
@@ -28,7 +28,7 @@ app.controller("auctionListController",function($rootScope,$scope, $routeParams,
 	
 	$scope.loadAuctions();
 });
-/*
+
 app.controller("productPageController",function($rootScope,$scope,$routeParams, $http, $interval,$timeout) {
 	$scope.loadAuctions = function(){
 		var response = $http.get('/projectwork-web/rest/auction/list');
@@ -67,7 +67,7 @@ app.controller("productPageController",function($rootScope,$scope,$routeParams, 
 	        });
 		
 		
-	};
+	}
 	
 	$scope.displayMessage = function(msg,type){
 		$scope.classMessage = type==null?'info':type;
@@ -75,9 +75,9 @@ app.controller("productPageController",function($rootScope,$scope,$routeParams, 
 		$timeout(function(){
 			$scope.clearMessage();
 		},2000);
-	};
+	}
 	
-	//$scope.loadAuctions();
+	$scope.loadAuctions();
 	
 });
 
@@ -143,7 +143,7 @@ app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $inte
 		});	
 		
 	};
-/*	
+	
 	$scope.addBid = function(bidPrice){
 		
 		var parameter = JSON.stringify({auctionOid:$scope.selectedAuction.oid, 
@@ -162,8 +162,7 @@ app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $inte
 		
 		
 	} 
-*/
-/*	
+	
 	$scope.registerChannel = function(channelType){
 		
 		var parameter = JSON.stringify({auctionOid:$scope.selectedAuction.oid, type:channelType});
