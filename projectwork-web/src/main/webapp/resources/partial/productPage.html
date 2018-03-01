@@ -5,31 +5,17 @@
             <div class="col-xs-6">
                 <div class="carousel slide carousel-fade" data-ride="carousel" data-interval="false" id="carousel1">
                     <div class="carousel-inner" role="listbox">
-                        <div class="item active"><img class="img-responsive" src="https://source.unsplash.com/8EfcODk_MBA/1440x960" alt="Slide Image">
+                        <div ng-repeat="image in auction.images track by $index" class="item" ng-class="{'active': $index == 0}">
+                        <img ng-src="/projectwork-web/rest/auction/getImage/{{auction.oid}}/{{image}}" class="img-responsive" style="max-height:320px;margin:auto;display:block;">
+                        <!--<img class="img-responsive" src="https://source.unsplash.com/8EfcODk_MBA/1440x960" alt="Slide Image">-->
                             <div class="carousel-caption">
                                 <h3>Obnoxiae retinere </h3>
                                 <p>Populatam populatam expresse ei ad </p>
                             </div>
                         </div>
-                        <div class="item"><img src="https://source.unsplash.com/HNOaMthcq0w/1440x960" alt="Slide Image">
-                            <div class="carousel-caption">
-                                <h3>Dum nixus poterat quibus</h3>
-                                <p>Neque eius tu Non sustinere </p><button class="btn btn-default" type="button">Aut nobis ne </button></div>
-                        </div>
-                        <div class="item"><img src="https://source.unsplash.com/yPbBYE1pkHo/1440x960" alt="Slide Image">
-                            <div class="carousel-caption">
-                                <h3>Virtute possit </h3>
-                                <p>Tamen Quod adiuves ille quamvis </p>
-                            </div>
-                        </div>
                     </div>
                     <div><a class="left carousel-control" ng-href="" role="button" data-slide="prev"><i class="icon-arrow-left"></i><span class="sr-only">Previous</span></a><a class="right carousel-control" ng-href="" role="button" data-slide="next"><i class="icon-arrow-right"></i><span class="sr-only">Next</span></a></div>
-                    <ol
-                        class="carousel-indicators">
-                        <li data-target="#carousel1" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel1" data-slide-to="1"></li>
-                        <li data-target="#carousel1" data-slide-to="2"></li>
-                        </ol>
+                    
                 </div>
             </div>
             <div class="col-xs-6">
@@ -62,7 +48,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="input-group">
-                            <div class="input-group-addon" style="background-color:rgba(255,255,255,0);border:0px;"><span style="font-size:24px;color:rgb(0,0,0);">Fai un'offerta:</span></div><input class="form-control" type="text" pattern="[0-9]" inputmode="numeric" name="bidPrice" 
+                            <div class="input-group-addon" style="background-color:rgba(255,255,255,0);border:0px;"><span style="font-size:24px;color:rgb(0,0,0);">Fai un'offerta:</span></div><input class="form-control" type="text" ng-pattern="/^[0-9]+([,.][0-9]{1,2})?$/" inputmode="numeric" name="bidPrice" 
 		    	placeholder="{{auction.currentWinningPrice}}" ng-model="bidPrice" currency-mask />
                             <div class="input-group-btn"><button class="btn btn-default" type="button" ng-click="addBid(bidPrice)" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;color:#2d3e51;border-radius:10px;width:97px;font-size:16px;"><strong>Conferma</strong></button></div>
                         </div>
@@ -141,3 +127,5 @@
             </div>
         </div>
         </div>
+        <div ng-style="message != null ? {'display':'show'} :{'display':'none'}" class="message {{classMessage}}">{{message}}</div>
+        
