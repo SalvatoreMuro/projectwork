@@ -83,7 +83,10 @@
                     <div class="input-group-addon" style="background-color:rgba(255,255,255,0);color:rgb(0,0,0);font-size:20px;border:0px;">
                         <p class="text-left"><span style="font-size:24px;">Notifiche Browser</span></p>
                     </div>
-                    <div class="input-group-btn"><button class="btn btn-default" type="submit" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;color:#2d3e51;border-radius:10px;width:97px;font-size:16px;"><strong>Registrati</strong></button></div>
+                    <div class="input-group-btn">
+                    	<button class="btn btn-default" ng-if="!websocketChannelActive" ng-click="registerChannel('WEBSOCKET')" type="button" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;color:#2d3e51;border-radius:10px;width:97px;font-size:16px;"><strong>Registrati</strong></button>
+                    	<button class="btn btn-default" ng-if="websocketChannelActive" ng-click="deregisterChannel('WEBSOCKET')" type="button" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;color:#2d3e51;border-radius:10px;width:190px;font-size:16px;"><strong>Annulla registrazione</strong></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -93,7 +96,10 @@
                     <div class="input-group-addon" style="background-color:rgba(255,255,255,0);color:rgb(0,0,0);font-size:20px;border:0px;">
                         <p class="text-left"><span style="font-size:24px;">Notifiche Email &nbsp; &nbsp;</span></p>
                     </div>
-                    <div class="input-group-btn"><button class="btn btn-default" type="submit" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;color:#2d3e51;border-radius:10px;width:97px;font-size:16px;"><strong>Registrati</strong></button></div>
+                    <div class="input-group-btn">
+                    	<button class="btn btn-default" ng-if="!emailChannelActive" ng-click="registerChannel('EMAIL')" type="submit" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;color:#2d3e51;border-radius:10px;width:97px;font-size:16px;"><strong>Registrati</strong></button>
+                    	<button class="btn btn-default" ng-if="emailChannelActive" ng-click="deregisterChannel('EMAIL')" type="button" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;color:#2d3e51;border-radius:10px;width:190px;font-size:16px;"><strong>Annulla registrazione</strong></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -108,7 +114,7 @@
                     <div class="input-group-addon" style="background-color:rgba(255,255,255,0);color:rgb(0,0,0);font-size:20px;border:0px;">
                         <p class="text-left" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:190px;font-size:24px;"><span>{{auction.supplier.username}}</span></p>
                     </div>
-                    <div class="input-group-btn"><button class="btn btn-default" ng-click="goToInfo(auction.supplier.oid)" type="button" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;color:#2d3e51;border-radius:10px;width:97px;font-size:16px;"><strong>Info</strong></button></div>
+                    <div class="input-group-btn"><button class="btn btn-default" ng-click="goToInfo(auction.supplier.email)" type="button" style="background-image:url(&quot;none&quot;);background-color:#f59c1f;color:#2d3e51;border-radius:10px;width:97px;font-size:16px;"><strong>Info</strong></button></div>
                 </div>
             </div>
         </div>

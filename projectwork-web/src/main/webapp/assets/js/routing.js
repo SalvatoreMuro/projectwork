@@ -6,10 +6,12 @@ app.config(function($routeProvider){
 	}).when("/productPage/:oid",{
 		templateUrl:"/projectwork-web/resources/partial/productPage.html",
 		controller:"productPageController"
-	}).when("/supplierPage/:oid",{
+	});
+	
+	$routeProvider.when("/supplierPage/:oid",{
 		templateUrl:"/projectwork-web/resources/partial/infoSuplpier.html",
 		controller:"infoSupplierController"
-	})
+	});
 	
 });
 

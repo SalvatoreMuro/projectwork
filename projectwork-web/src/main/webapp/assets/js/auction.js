@@ -29,7 +29,7 @@ app.controller("auctionListController",function($rootScope,$scope, $routeParams,
 	$scope.loadAuctions();
 });
 
-app.controller("productPageController",function($rootScope,$scope,$routeParams, $http, $interval,$timeout) {
+app.controller("productPageController",function($rootScope,$scope,$routeParams, $location, $http, $interval,$timeout) {
 	$scope.loadAuctions = function(){
 		var response = $http.get('/projectwork-web/rest/auction/list');
 		
@@ -68,6 +68,32 @@ app.controller("productPageController",function($rootScope,$scope,$routeParams, 
 		
 		
 	}
+	
+$scope.registerChannel = function(channelType){
+		
+		var parameter = JSON.stringify({auctionOid:$scope.auction.oid, type:channelType});
+		
+		var response = $http.post('/projectwork-web/rest/auction/registerChannel/',parameter);
+		
+		response.success(function(data, status, headers, config) {
+			$scope.loadAuction($scope.auction.oid);
+			$scope.displayMessage('Registrazione al canale ok');
+		});
+		
+	} 
+	
+	$scope.deregisterChannel = function(channelType){
+		
+		var parameter = JSON.stringify({auctionOid:$scope.auction.oid, type:channelType});
+		
+		var response = $http.post('/projectwork-web/rest/auction/deregisterChannel/',parameter);
+		
+		response.success(function(data, status, headers, config) {
+			$scope.loadAuction($scope.auction.oid);
+			$scope.displayMessage('Deregistrazione al canale ok');
+		});
+		
+	} 
 	
 	$scope.displayMessage = function(msg,type){
 		$scope.classMessage = type==null?'info':type;
@@ -195,7 +221,7 @@ app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $inte
 		
 	} 
 	
-	$scope.registerChannel = function(channelType){
+/*	$scope.registerChannel = function(channelType){
 		
 		var parameter = JSON.stringify({auctionOid:$scope.selectedAuction.oid, type:channelType});
 		
@@ -221,7 +247,7 @@ app.controller('auctionCtrl', function($rootScope,$scope,$location, $http, $inte
 		
 	} 
 	
-	
+	*/
 	//initial load
 
 	$scope.connectWS = function() {
